@@ -12,6 +12,9 @@ let currentBar2=0;
 let i=0;
 let j=1;
 let minIndex=0;
+
+let button1, button2, button3;
+let sortType=0;  //sorting type 0->bubble sort, 1->selection sort...
 function getRandomNumberBetween(min,max){
     return Math.floor(Math.random()*(max-min+1)+min);
 }
@@ -64,21 +67,20 @@ function setup() {
     //strokeWeight( 2 );
 
     //Bubble sort button
-    button2 = createButton('BubbleSort');
+    button2 = createButton('Bubble Sort');
     button2.position(210, 10);
     //button.mousePressed(x2);
-    button2.mousePressed(num());
-    button2.mousePressed(loop);
+    button2.mousePressed(()=>{sortType=0; loop()});
     button2.style("font-size", "24px", "color", "gray");
     button2.style("background", "rgb(50, 50, 50)");
     button2.style("color", "rgb(0, 255, 0)");
     
     //Selection sort
-    button3 = createButton('SelectionSort');
+    button3 = createButton('Selection Sort');
     button3.position(344, 10);
     //button.mousePressed(x1);
     //button.mousePressed(myResetSelection());
-    button3.mousePressed(loop());
+    button3.mousePressed(()=>{sortType=1; loop()});
     button3.style("font-size", "24px", "color", "gray");
     button3.style("background", "rgb(50, 50, 50)");
     button3.style("color", "rgb(0, 255, 0)");
@@ -96,8 +98,16 @@ function draw() {
     frameRate(opsPerSecSlider.value());
     numBars=nbars.value();
     window.console.log(numBars);
-    drawBarsbubble();
-    bubbleSort();
+    console.log('sort type ', sortType);
+    if(sortType==0){
+        drawBarsbubble();
+        bubbleSort();
+
+    }
+    else{
+        drawBarsselection();
+        selectionSort();
+    }
     //window.console.log(xx);
     window.console.log("draw");
 }
@@ -196,7 +206,7 @@ function drawBarsbubble() {
 function drawBarsselection() {
     //window.console.log(bars);
     for ( const [idx, val] of bars.entries() ) {
-    barHeight = ( height - 50 ) / 10 * val;
+    barHeight = ( height - 60 ) / (3*numBars) * val;
     topLeftX = idx * ( barWidth );
     topLeftY = height - barHeight
     // rect uses topLeftX, topLeftY, width, height
