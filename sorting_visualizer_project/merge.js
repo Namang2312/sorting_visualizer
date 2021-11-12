@@ -19,11 +19,11 @@ function getRandomNumberBetween(min,max){
 // execute once when the program begins
 function setup() {
     frameRate( fps );
-    myCanvas = createCanvas( 800, 400 );
+    myCanvas = createCanvas( 950, 410 );
     //myCanvas.parent("merge");
     barWidth = width / numBars;
     stroke( 255 );
-    strokeWeight( 1 );
+    strokeWeight( 0.5 );
     myReset();
 }
 
@@ -66,7 +66,8 @@ if(curr_size<=n-1)
     window.console.log(bars);
 }
 else{
-    noLoop();
+
+    //noLoop();
 }
 
 }
@@ -129,11 +130,11 @@ function merge(bars,l,m,r)
 function drawBars() {
     //window.console.log(bars);
     for ( const [idx, val] of bars.entries() ) {
-    barHeight = ( height - 50 ) / 30 * val;
+    barHeight = ( height - 50 ) / 100 * val;
     topLeftX = idx * ( barWidth );
     topLeftY = height - barHeight
     // rect uses topLeftX, topLeftY, width, height
-    if ( idx == currentBar || idx == currentBar + 1 ) {
+    if(curr_size>=bars.length) {
         fill( 0, 255, 0 ); // green
     } else {
         fill( 255, 0, 0 ); // red
@@ -153,11 +154,13 @@ function drawBars() {
 function myReset() {
     bars = [];
     //bars[0] = Math.floor( ( Math.random(1,20) * 9 ) + 1 );  // between 1 and 9 inc.
-    bars[0]=getRandomNumberBetween(1,30)
+    bars[0]=getRandomNumberBetween(1,100)
     for ( let i = 0; i < numBars; i++ ) {
-    bars[i]=getRandomNumberBetween(1,30)
+    bars[i]=getRandomNumberBetween(1,100)
     //bars[i] = Math.floor( Math.random(1,20) * 10 ); // between 0 and 9 inc.
     }
+    curr_size=1;
+    mergeSort(bars,bars.length);
     loop();
 }
 

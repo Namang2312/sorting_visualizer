@@ -5,14 +5,15 @@ let barWidth;
 let currentBar1;
 let currentBar2;
 let min_idx;
-let i;
-let j;
-let iteration = 0;
+let i=0;
+let j=1;
+let minIndex=0;
+let colour=[]
 
 // The statements in the setup() function
 // execute once when the program begins
 function setup() {
-    frameRate( fps );
+    frameRate( 1 );
     myCanvas = createCanvas( 800, 400 );
     //myCanvas.parent("selectionSort()");
     barWidth = width / numBars;
@@ -27,41 +28,50 @@ function draw() {
     background( 0, 0, 255 );
     drawBars();
     //bubbleSort();
-    selectionSort(iteration);
-    iteration++;
+    selectionSort();
 }
 
 // The Bubble Sort Algorithm
 
-function selectionSort(iteration) {
-  if (iteration < bars.length) {
-    let min = bars.length;
-    let minIndex;
-    let temp = bars[iteration];
-    for (let j = iteration; j < bars.length; j++) {
-      if (bars[j] < min) {
-        min = bars[j];
+function selectionSort() {
+  if (i < bars.length-1) {
+    let temp = bars[i];
+    if(j<bars.length){
+      if (bars[j] < bars[minIndex]) {
         minIndex = j;
       }
-    }
-    bars[iteration] = bars[minIndex];
+      j++;
+    }else{
+    bars[i] = bars[minIndex];
     bars[minIndex] = temp;
-    currentBar1=iteration;
-    currentBar2=minIndex;
+    colour[i]=2;
+    i++;
+    minIndex=i;
+    j=i+1;
   }
-}
+  currentBar1=j;
+  currentBar2=minIndex;
+  window.console.log(i,j);
+}else{
+    noLoop();
+}}
 
 // Prepare the bars for drawing by draw()
 function drawBars() {
-    window.console.log(bars);
+    //window.console.log(bars);
     for ( const [idx, val] of bars.entries() ) {
     barHeight = ( height - 50 ) / 10 * val;
     topLeftX = idx * ( barWidth );
     topLeftY = height - barHeight
     // rect uses topLeftX, topLeftY, width, height
-    if ( idx == currentBar1 || idx == currentBar2 ||iteration==bars.length-1||iteration==bars.length) {
-        fill( 0, 255, 0 ); // green
-    } else {
+     if(colour[idx]==2||i==numBars-1){
+        fill(0,255,0);
+    }else if ( idx == currentBar1) {  
+        fill( 255, 255, 0 ); // yellow
+    }else if(idx == currentBar2){
+        fill(255);//white
+    } 
+    else{
         fill( 255, 0, 0 ); // red
     }
     rect( topLeftX, topLeftY, barWidth, barHeight );
@@ -78,11 +88,14 @@ function drawBars() {
 
 function myReset() {
     bars = [];
-    iteration = 0;
-    j = i+1;
+    i = 0;
+    j = 1;
     bars[0] = Math.floor( ( Math.random() * 9 ) + 1 );  // between 1 and 9 inc.
     for ( let i = 1; i < numBars; i++ ) {
     bars[i] = Math.floor( Math.random() * 10 ); // between 0 and 9 inc.
+    }
+    for ( let i = 0; i < numBars; i++ ) {
+    colour[i]=-1;
     }
     loop();
 }
