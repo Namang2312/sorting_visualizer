@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "sorting-visualizer-ggits",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

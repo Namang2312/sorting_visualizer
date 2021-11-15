@@ -2,9 +2,9 @@ const numBars = 20;
 const fps = 1;  // Frame rate
 let bars = [];
 let barWidth;
-let currentBar;
+let currentBarmerge;
 let curr_size=1;
-function min(x, y) { 
+function minno(x, y) { 
     if(x<y){
         return x;
     }
@@ -55,9 +55,9 @@ if(curr_size<=n-1)
     {
         // Find ending point of left subarray. mid+1 is starting
         // point of right
-        let mid = min(left_start + curr_size - 1, n-1);
+        let mid = minno(left_start + curr_size - 1, n-1);
 
-        let right_end = min(left_start + 2*curr_size - 1, n-1);
+        let right_end = minno(left_start + 2*curr_size - 1, n-1);
 
         // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end]
         merge(bars, left_start, mid, right_end);

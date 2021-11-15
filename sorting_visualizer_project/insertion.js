@@ -1,13 +1,12 @@
-let iteration = 1;
+//let iteration = 1;
 const numBars = 10;
-const fps = 0.5;  // Frame rate
+const fps = 5;  // Frame rate
 let bars = [];
-let colour=[]
-colour[0]=2;
+let colourinsertion=[]
 let barWidth;
-let currentBar1;
-let currentBar2;
-var ii = 1, jj = 1;
+let currentBarinsertion1;
+let currentBarinsertion2;
+var r = 1, s = 1;
 
 // The statements in the setup() function
 // execute once when the program begins
@@ -25,46 +24,46 @@ function setup() {
 // program is stopped.
 function draw() {
     background( 0, 0, 255 );
-    drawBars();
+    drawBarsinsertion();
     //bubbleSort();
     //selectionSort(iteration);
     insertionSort();
-    iteration++;
+    //iteration++;
 }
 
 // The Bubble Sort Algorithm
 
-function insertionSort(iteration) {
-    if (ii < numBars) {
-    if (jj > 0 && bars[jj - 1] > bars[jj]) {
-      var temp = bars[jj];
-      bars[jj] = bars[jj - 1];
-      bars[jj - 1] = temp;
+function insertionSort() {
+    if (r < numBars) {
+    if (s > 0 && bars[s - 1] > bars[s]) {
+      var temp = bars[s];
+      bars[s] = bars[s - 1];
+      bars[s - 1] = temp;
 
-      jj--;
+      s--;
     } else {
-      colour[ii]=2;
-      ii++;
-      jj = ii;
+      colourinsertion[r]=2;
+      r++;
+      s = r;
     }
   }
   else{
-    noloop();
+    noLoop();
   }
 }
 
 // Prepare the bars for drawing by draw()
-function drawBars() {
+function drawBarsinsertion() {
     window.console.log(bars);
     for ( const [idx, val] of bars.entries() ) {
     barHeight = ( height-50) / 10 * val;
     topLeftX = idx * ( barWidth );
     topLeftY = height - barHeight
     // rect uses topLeftX, topLeftY, width, height
-    if ( colour[idx] ==2||colour[idx-1] ==2||idx==0) {
+    if ( colourinsertion[idx] ==2||colourinsertion[idx-1] ==2||idx==0) {
         fill( 0, 255, 0 ); // green
     } else 
-    if ( idx == jj) {
+    if ( idx == s) {
         fill( 255, 255, 0 ); // yellow
     }
     else{
@@ -91,7 +90,7 @@ function myReset() {
     bars[i] = Math.floor( Math.random() * 10 ); // between 0 and 9 inc.
     }
     for ( let i = 0; i < numBars; i++ ) {
-    colour[i]=-1;
+    colourinsertion[i]=-1;
     }
     loop();
 }
