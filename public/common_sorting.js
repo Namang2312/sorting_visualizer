@@ -61,7 +61,7 @@ function setup() {
     nbars.position(309, 55);
     nbars.style('width', '133px');
     numBars=nbars.value();
-    nbars.mouseClicked(()=>{
+    nbars.input(()=>{
         if(newArrClicked) myReset();
         
     });
