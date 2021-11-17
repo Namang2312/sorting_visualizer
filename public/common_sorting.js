@@ -6,6 +6,14 @@ let xx=0;
 let nbars=0;let sw=2;
 let canvasDiv = document.getElementById('myCanvas');
 let newArrClicked = false;
+
+let newArrayBtn = document.getElementById('createNewArray')
+let bubbleSortBtn = document.getElementById('bubbleSort')
+let selectionSortBtn = document.getElementById('selectionSort')
+let insertionSortBtn = document.getElementById('insertionSort')
+let mergeSortBtn = document.getElementById('mergeSort')
+let quickSortBtn = document.getElementById('quickSort')
+
 //bubble sort variables
 let currentBar=-2;
 let i=0;
@@ -53,10 +61,19 @@ function minno(x, y) {
 // execute once when the program begins
 function setup() {
     //frameRate( fps );
-    // let canvasDiv = document.getElementById('myCanvas');
-    // myCanvas.parent("myCanvas");
-    createCanvas(windowWidth, windowHeight);
+    let canvasDiv = document.getElementById('myCanvas');
+    let canvasWidth = canvasDiv.offsetWidth;
+    let canvasHeight = canvasDiv.offsetHeight;
+    console.log(canvasWidth, canvasHeight, canvasDiv);
     
+    let myCanvas = createCanvas(canvasWidth, 500);
+    myCanvas.parent('myCanvas');
+    c2 = color(215,225,236);
+
+    c1 = color(255);
+   
+    setGradient(c1, c2);
+
     nbars = createSlider(10, 90, 10,20);
     nbars.position(309, 55);
     nbars.style('width', '133px');
@@ -87,71 +104,115 @@ function setup() {
     buttonsize.style("border","none");    
     
     //Create new array Button
-    button1 = createButton('Create new array');
-    button1.position(10, 10);
-    button1.style("font-size", "24px", "color", "gray");
-    button1.style("background", "rgb(50, 50, 50)");
-    button1.style("color", "rgb(0, 255, 0)");
+    newArrayBtn.addEventListener('click', ()=>{
+        myReset();
+        newArrClicked = true;
+    })
+    // button1 = createButton('Create new array');
+    // button1.position(10, 10);
+    // button1.style("font-size", "24px", "color", "gray");
+    // button1.style("background", "rgb(50, 50, 50)");
+    // button1.style("color", "rgb(0, 255, 0)");
     
    // window.console.log(button1.mousePressed());
-    button1.mousePressed(()=>{
-        myReset()
-        newArrClicked = true;
-    });
+    // button1.mousePressed(()=>{
+    //     myReset()
+    //     newArrClicked = true;
+    // });
+
+    bubbleSortBtn.addEventListener('click', ()=>{
+        sortType=0;
+        loop(); 
+    })
     
     
     //stroke( 255 );
     //strokeWeight( 2 );
 
     //Bubble sort button
-    button2 = createButton('Bubble Sort');
-    button2.position(210, 10);
+    bubbleSortBtn.addEventListener('click', ()=>{
+        sortType = 0;
+        loop();
+    })
+
+    // button2 = createButton('Bubble Sort');
+    // button2.position(210, 10);
     //button.mousePressed(x2);
-    button2.mousePressed(()=>{sortType=0; loop()});
-    button2.style("font-size", "24px", "color", "gray");
-    button2.style("background", "rgb(50, 50, 50)");
-    button2.style("color", "rgb(0, 255, 0)");
+    // button2.mousePressed(()=>{sortType=0; loop()});
+    // button2.style("font-size", "24px", "color", "gray");
+    // button2.style("background", "rgb(50, 50, 50)");
+    // button2.style("color", "rgb(0, 255, 0)");
     
     //Selection sort
-    button3 = createButton('Selection Sort');
-    button3.position(351, 10);
+    selectionSortBtn.addEventListener('click', ()=>{
+        sortType = 1;
+        loop();
+    });
+
+    // button3 = createButton('Selection Sort');
+    // button3.position(351, 10);
     //button.mousePressed(x1);
     //button.mousePressed(myResetSelection());
-    button3.mousePressed(()=>{sortType=1; loop()});
-    button3.style("font-size", "24px", "color", "gray");
-    button3.style("background", "rgb(50, 50, 50)");
-    button3.style("color", "rgb(0, 255, 0)");
+    // button3.mousePressed(()=>{sortType=1; loop()});
+    // button3.style("font-size", "24px", "color", "gray");
+    // button3.style("background", "rgb(50, 50, 50)");
+    // button3.style("color", "rgb(0, 255, 0)");
 
     //Insertion sort button
-    button4 = createButton('Insertion Sort');
-    button4.position(516, 10);
-    button4.mousePressed(()=>{sortType=2; loop()});
-    button4.style("font-size", "24px", "color", "gray");
-    button4.style("background", "rgb(50, 50, 50)");
-    button4.style("color", "rgb(0, 255, 0)");
+    insertionSortBtn.addEventListener('click', ()=>{
+        sortType = 2;
+        loop();
+    });
+    // button4 = createButton('Insertion Sort');
+    // button4.position(516, 10);
+    // button4.mousePressed(()=>{sortType=2; loop()});
+    // button4.style("font-size", "24px", "color", "gray");
+    // button4.style("background", "rgb(50, 50, 50)");
+    // button4.style("color", "rgb(0, 255, 0)");
 
     //merge sort button
-    button5 = createButton('Merge Sort');
-    button5.position(674, 10);
-    button5.mousePressed(()=>{sortType=3; loop()});
-    button5.style("font-size", "24px", "color", "gray");
-    button5.style("background", "rgb(50, 50, 50)");
-    button5.style("color", "rgb(0, 255, 0)");
+    mergeSortBtn.addEventListener('click', ()=>{
+        sortType = 3;
+        loop();
+    });
+    // button5 = createButton('Merge Sort');
+    // button5.position(674, 10);
+    // button5.mousePressed(()=>{sortType=3; loop()});
+    // button5.style("font-size", "24px", "color", "gray");
+    // button5.style("background", "rgb(50, 50, 50)");
+    // button5.style("color", "rgb(0, 255, 0)");
 
     
     //quick sort button
-    button5 = createButton('Quick Sort');
-    button5.position(808, 10);
-    button5.mousePressed(()=>{sortType=4; loop()});
-    button5.style("font-size", "24px", "color", "gray");
-    button5.style("background", "rgb(50, 50, 50)");
-    button5.style("color", "rgb(0, 255, 0)");
+    quickSortBtn.addEventListener('click', ()=>{
+        sortType = 4;
+        loop();
+    });
+    // button5 = createButton('Quick Sort');
+    // button5.position(808, 10);
+    // button5.mousePressed(()=>{sortType=4; loop()});
+    // button5.style("font-size", "24px", "color", "gray");
+    // button5.style("background", "rgb(50, 50, 50)");
+    // button5.style("color", "rgb(0, 255, 0)");
+
+
     opsPerSecSlider = createSlider(0.5, 50, 1);
     opsPerSecSlider.position(90, 55);
     opsPerSecSlider.style('width', '133px');
     window.console.log("setup");
     noLoop();
 }
+
+function setGradient(c1, c2) {
+    // noprotect
+    noFill();
+    for (var y = 0; y < height; y++) {
+      var inter = map(y, 0, height, 0, 1);
+      var c = lerpColor(c1, c2, inter);
+      stroke(c);
+      line(0, y, width, y);
+    }
+  }
 
 // The statements in the draw() function are executed until the
 // program is stopped.
